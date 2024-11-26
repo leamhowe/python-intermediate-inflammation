@@ -29,3 +29,16 @@ def test_daily_mean_integers():
     # Need to use Numpy testing functions to compare arrays
     npt.assert_array_equal(daily_mean(test_input), test_result)
 
+def test_daily_min():
+    """Test that min function works."""
+    test_input = np.array([[0, 0],
+                           [3,4],
+                           [5,6]])
+    test_result = np.array([0, 0])
+
+def test_daily_max():
+    """Test that max function works."""
+    test_input = np.array([[0, 0],
+                           [3,4],
+                           [5,6]])
+    test_result = np.array([5, 6])
