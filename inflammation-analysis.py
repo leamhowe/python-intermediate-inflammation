@@ -5,6 +5,8 @@ import argparse
 
 from inflammation import models, views
 
+def test_dev(args):
+    print('This is a function to test pushing to the dev branch')
 
 def main(args):
     """The MVC Controller of the patient inflammation data system.
