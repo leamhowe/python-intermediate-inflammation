@@ -10,7 +10,7 @@ jobs:
 
     # we can also specify the OS to run tests on
 #    runs-on: ubuntu-latest
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     # a job is a seq of steps
     steps:
@@ -23,13 +23,13 @@ jobs:
     - name: Set up Python 3.11
       uses: actions/setup-python@v5
       with:
-        python-version: "3.13"
+        python-version: "3.11"
 
     - name: Install Python dependencies
       run: |
-        python -m pip install --upgrade pip
-        python -m pip install -r requirements.txt
+        python3 -m pip install --upgrade pip
+        python3 -m pip install -r requirements.txt
 
     - name: Test with PyTest
       run: |
-        python -m pytest --cov=inflammation.models tests/test_models.py
+        python3 -m pytest --cov=inflammation.models tests/test_models.py
