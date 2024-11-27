@@ -8,7 +8,8 @@ import pytest
 
 from inflammation.models import (daily_max,
                                  daily_min,
-                                 daily_mean)
+                                 daily_mean,
+                                 patient_normalise)
 
 def test_daily_mean_zeros():
     """Test that mean function works for an array of zeros."""
@@ -84,3 +85,18 @@ def test_daily_min_string():
     with pytest.raises(TypeError):
         # error_expected = daily_min(test_input)
         daily_min(test_input)
+
+
+@pytest.mark.parametrize(
+    "test, expected",
+    [
+        ([[0, 0, 0], [0, 0, 0], [0, 0, 0]], [[0, 0, 0], [0, 0, 0], [0, 0, 0]]),
+        ([[1, 1, 1], [1, 1, 1], [1, 1, 1]], [[1, 1, 1], [1, 1, 1], [1, 1, 1]]),
+        ([[1, 2, 3], [4, 5, 6], [7, 8, 9]], [[0.33, 0.67, 1], [0.67, 0.83, 1], [0.78, 0.89, 1]]),
+    ])
+def test_patient_normalise(test, expected):
+    """Test normalisation works for arrays of one and positive integers.
+       Test with a relative and absolute tolerance of 0.01."""
+
+    result = patient_normalise(np.array(test))
+    npt.assert_allclose(result, np.array(expected), rtol=1e-2, atol=1e-2)
