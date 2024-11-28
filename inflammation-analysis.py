@@ -3,6 +3,7 @@
 
 import argparse
 import os
+import glob
 
 from inflammation import models, views
 from inflammation.compute_data import analyse_data
@@ -20,8 +21,24 @@ def main(args):
         infiles = [args.infiles]
 
 
+    # if args.full_data_analysis:
+    #     analyse_data(os.path.dirname(infiles[0]))
+    #     return
+        
     if args.full_data_analysis:
-        analyse_data(os.path.dirname(infiles[0]))
+        _, extension = os.path.splitext(infiles[0])
+        if extension == '.json':
+            data_source = models.JSONDataSource(os.path.dirname(infiles[0]))
+        elif extension == '.csv':
+            data_source = models.CSVDataSource(os.path.dirname(infiles[0]))
+        else:
+            raise ValueError(f'Unsupported file format: {extension}')
+        standard_deviation = analyse_data(data_source)
+        # graph_data = {
+        #     'standard deviation by day': data_result,
+        # }
+        # views.visualize(graph_data)
+        views.visualize({'standard deviation by day': standard_deviation})
         return
 
     for filename in infiles:
